@@ -17,7 +17,7 @@ grass = None
 font = None
 
 
-#얘를 배경
+#배경
 class Grass:
     def __init__(self):
         self.image = load_image('main_stage.png')
@@ -27,7 +27,7 @@ class Grass:
         self.image.draw(400, 300)
 
 
-#얘를 캐릭터(블럭)
+# 캐릭터(블럭)
 class Boy:
     def __init__(self):
         self.x, self.y = 0, 90
@@ -47,7 +47,7 @@ class Boy:
         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 
 
-
+##
 
 def enter():
     global boy, grass
