@@ -27,7 +27,7 @@ class Grass:
         self.image.draw(400, 300)
 
 
-# 캐릭터(블럭)
+# 캐릭터(블럭)"""""""
 class Boy:
     def __init__(self):
         self.x, self.y = 0, 90
