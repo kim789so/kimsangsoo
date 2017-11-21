@@ -14,6 +14,7 @@ name = "MainState"
 
 boy = None
 grass = None
+block = None
 font = None
 
 
@@ -46,19 +47,78 @@ class Boy:
     def draw(self):
         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 
+# ㅜ
+class Block:
+    def __init__(self):
+        self.x, self.y = 400, 560
+        self.image = None
+        self.dir = 0  # 기본상태 방향
+        self.fall_speed = 30
 
+    def draw(self):
+        if(self.dir == 0):                   #처음상태
+            self.image = load_image('qwe.png')
+            self.image.draw(self.x,self.y)
+        elif(self.dir == 1):                 #한번 돌렸을 때
+            self.image= load_image('qwe.png')
+            self.image.draw(self.x, self.y)
+        elif(self.dir == 2):                 #두번 돌렸을 때
+            self.image = load_image('qwe.png')
+            self.image.draw(self.x, self.y)
+        elif(self.dir == 3):                 #세번 돌렸을 때
+            self.image = load_image('qwe.png')
+            self.image.draw(self.x, self.y)
+
+    def rotate(self):
+        print('rotate')
+        self.dir +=1
+        if (self.dir > 3):
+            self.dir = 0
+
+    #블럭 떨어지는 속도?
+    def update(self):
+        self.y -= 0.3  #속도
+        self.y = max(40,self.y)
+
+    def handel_events(self,event):
+        if(event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            #print('space')
+            self.rotate()
+            #self.dir += 1
+            #if(self.dir > 3):
+            #    self.dir = 0
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_LEFT):
+            self.x -= 5
+
+
+#ㄴ
+class Block2:
+    pass
+
+#ㅡ
+class Block3:
+    pass
+
+#ㅁ
+class Block4:
+    pass
+
+
+#
 ##
 
 def enter():
-    global boy, grass
+    global boy, grass, block
     boy = Boy()
     grass = Grass()
+    block = Block()
 
 
 def exit():
-    global boy, grass
+    global boy, grass,block
     del(boy)
     del(grass)
+    del(block)
 
 
 def pause():
@@ -80,17 +140,21 @@ def handle_events():
             game_framework.change_state(title_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_state(pause_state)
+        else:
+            block.handel_events(event)
 
 
 
 def update():
     boy.update()
+    block.update()
     update_canvas()
 
 
 def draw_main_scene():
     grass.draw()
     boy.draw()
+    block.draw()
 
 
 
