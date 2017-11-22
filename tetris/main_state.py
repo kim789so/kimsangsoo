@@ -65,7 +65,7 @@ class Block:
         elif(self.dir == 2):                 #두번 돌렸을 때
             self.image = load_image('qwe.png')
             self.image.draw(self.x, self.y)
-        elif(self.dir == 3):                 #세번 돌렸을 때
+        elif(self.dir == 3):                 #세번 돌렸을 때 sdfsfsfsfsfsf
             self.image = load_image('qwe.png')
             self.image.draw(self.x, self.y)
 
