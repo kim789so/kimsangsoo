@@ -56,16 +56,16 @@ class Block:
         self.fall_speed = 30
 
     def draw(self):
-        if(self.dir == 0):                   #처음상태
+        if(self.dir == 0):                   #처음상태 //
             self.image = load_image('qwe.png')
             self.image.draw(self.x,self.y)
-        elif(self.dir == 1):                 #한번 돌렸을 때
+        elif(self.dir == 1):                 #한번 돌렸을 때//
             self.image= load_image('qwe.png')
             self.image.draw(self.x, self.y)
-        elif(self.dir == 2):                 #두번 돌렸을 때
+        elif(self.dir == 2):                 #두번 돌렸을 때//
             self.image = load_image('qwe.png')
             self.image.draw(self.x, self.y)
-        elif(self.dir == 3):                 #세번 돌렸을 때 sdfsfsfsfsfsf
+        elif(self.dir == 3):                 #세번 돌렸을 때 //
             self.image = load_image('qwe.png')
             self.image.draw(self.x, self.y)
 
