@@ -23,8 +23,6 @@ def exit():
 
 def update():
     #counter = image delay
-    global counter
-    counter = (counter + 1) % 100
     pass
 
 def draw():
@@ -32,8 +30,7 @@ def draw():
     global image, counter
     clear_canvas()
     main_state.draw_main_scene()
-    if counter < 50:
-        image.draw(400,300)
+    image.draw(400,300)
     update_canvas()
 
 

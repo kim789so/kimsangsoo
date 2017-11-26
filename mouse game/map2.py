@@ -7,10 +7,10 @@ from pico2d import *
 import game_framework
 import title_state
 import pause_state
-import map2
+import map3
 
 
-name = "MainState"
+name = "map2 state"
 
 mouse = None
 background = None
@@ -141,33 +141,31 @@ class Bar_2:
         self.image.draw(self.x + 330, self.y + 410)
         self.image.draw(self.x + 430, self.y + 410)
         self.image.draw(self.x + 500, self.y + 410)
-
     def draw_bb(self):
-        draw_rectangle(*self.get_firstbb())
-
-    def get_firstbb(self):
-        return self.x - 140, self.y - 10, self.x + 150, self.y + 10
+        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 50 - 90, self.y - 10, self.x + 50 + 100, self.y + 10
 
 class Obstacle:
-    def __init__(self):
-        self.x, self.y = 400, 300
+    def __init__(self, x, y, type):
+        self.x, self.y = x, y
+        self.minx, self.maxx = x - 100 , x + 100
         self.image = load_image('obstacle.png')
-        self.type = 0
+        self.type = type
 
     def update(self):
         if self.type == 0:
             self.x += 1
-            if self.x >500:
+            if self.x > self.maxx:
                 self.type = 1
         elif self.type == 1:
             self.x -= 1
-            if self.x < 300:
+            if self.x < self.minx:
                 self.type = 0
     def draw(self):
         self.image.draw(self.x , self.y)
+        #self.image.draw(self.x + 200, self.y + 120)
 
 
     def draw_bb(self):
@@ -177,7 +175,7 @@ class Obstacle:
 
 
 def enter():
-    global mouse, background, end, bar_1, bar_2, obstacle
+    global mouse, background, end, bar_1, bar_2, obstacle, obstacle2
     global drawstart
     drawstart = 0
     mouse = Mouse()
@@ -185,17 +183,19 @@ def enter():
     background = Background()
     bar_1 = Bar_1()
     bar_2 = Bar_2()
-    obstacle = Obstacle()
+    obstacle = Obstacle(400,300, 0)
+    obstacle2 = Obstacle(600,420, 1)
     mouse.setpos()
 
 def exit():
-    global mouse, background, end, bar_1, bar_2, obstacle
+    global mouse, background, end, bar_1, bar_2, obstacle, obstacle2
     del(mouse)
     del(background)
     del(end)
     del(bar_1)
     del(bar_2)
     del(obstacle)
+    del (obstacle2)
 
 
 def pause():
@@ -234,23 +234,27 @@ def collide(a, b):
     return True
 
 
-
 def update():
-    global  end, bar_1, bar_2, obstacle, mouse
+    global  end, bar_1, bar_2, obstacle,  obstacle2, mouse
     #mouse.update()
     if drawstart == 1:
         obstacle.update()
+        obstacle2.update()
     update_canvas()
 
     if drawstart == 1:
         if collide(end, mouse):
-            game_framework.push_state(map2)
+            game_framework.push_state(map3)
         if collide(obstacle, mouse):
+            mouse.setpos()
+        if collide( obstacle2, mouse):
             mouse.setpos()
     if collide(bar_1, mouse):
         mouse.setpos()
     if collide(bar_2, mouse):
         mouse.setpos()
+    #elif collide(bar, end):
+       # bar.stop(0)
 
 
 def draw_main_scene():
@@ -261,11 +265,13 @@ def draw_main_scene():
     bar_2.draw()
     if drawstart == 1:
         obstacle.draw()
+        obstacle2.draw()
 
-   # bar_1.draw_bb()
+    #bar_1.draw_bb()
     #bar_2.draw_bb()
     end.draw_bb()
     mouse.draw_bb()
+
 
 def draw():
     hide_cursor()
