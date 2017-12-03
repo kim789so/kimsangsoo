@@ -94,9 +94,11 @@ class Mouse:
     def setpos(self):
         SDL_WarpMouseInWindow(None, 145, 470)
 
-class Bar_1:
-    def __init__(self):
-        self.x, self.y = 70, 170
+class vertical_bar:
+    def __init__(self,x,y, incre, end):
+        self.x, self.y = x, y
+        self.incre = incre
+        self.end = end
         self.image = load_image('bar_1.png')
 
     def update(self):
@@ -104,52 +106,34 @@ class Bar_1:
 
     def draw(self):
         self.image.draw(self.x, self.y)
-        self.image.draw(self.x , self.y - 10)
-        self.image.draw(self.x, self.y + 100)
-        self.image.draw(self.x + 290, self.y - 30)
-        self.image.draw(self.x + 200, self.y + 200)
-        self.image.draw(self.x + 470, self.y + 90)
-        self.image.draw(self.x + 400, self.y + 300)
-        self.image.draw(self.x + 670, self.y + 190)
-        self.image.draw(self.x + 670, self.y + 290)
+        self.image.draw(self.x , self.y - self.incre)
+        self.image.draw(self.x, self.y + self.end)
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x - 10, self.y - 50 - 10, self.x + 10, self.y + 50 + 100
+        return self.x - 10, self.y - 50 - self.incre, self.x + 10, self.y + 50 + self.end
 
-class Bar_2:
-    def __init__(self):
-        self.x, self.y = 200, 100
+class horizontal_bar:
+    def __init__(self, x, xend, incre, y):
+        self.x, self.y, = x,y
+        self.incre = incre
+        self.xend = self.x + xend
         self.image = load_image('bar_2.png')
 
     def update(self):
         pass
 
     def draw(self):
-        self.image.draw(self.x - 90, self.y)
         self.image.draw(self.x, self.y)
-        self.image.draw(self.x + 100, self.y)
-        self.image.draw(self.x - 70, self.y + 210 )
-        self.image.draw(self.x +30 , self.y + 210 )
-        self.image.draw(self.x + 200, self.y + 100)
-        self.image.draw(self.x + 300, self.y + 100)
-        self.image.draw(self.x + 130, self.y + 310)
-        self.image.draw(self.x + 230, self.y + 310)
-        self.image.draw(self.x + 400, self.y + 200)
-        self.image.draw(self.x + 500, self.y + 200)
-        self.image.draw(self.x + 330, self.y + 410)
-        self.image.draw(self.x + 430, self.y + 410)
-        self.image.draw(self.x + 500, self.y + 410)
+        self.image.draw(self.x + self.incre, self.y)
+        self.image.draw(self.xend, self.y)
 
     def draw_bb(self):
-        draw_rectangle(*self.get_firstbb())
-
-    def get_firstbb(self):
-        return self.x - 140, self.y - 10, self.x + 150, self.y + 10
+        draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x - 50 - 90, self.y - 10, self.x + 50 + 100, self.y + 10
+        return self.x - 50, self.y - 10, self.xend + 50, self.y + 10
 
 class Obstacle:
     def __init__(self):
@@ -177,17 +161,32 @@ class Obstacle:
 
 
 def enter():
-    global mouse, background, end, bar_1, bar_2, obstacle
+    global mouse, background, end, bar_1, bar_2, bar_3, bar_4, bar_5, bar_6, bar_7, bar_8, bar_9, bar_10, bar_11, bar_12, obstacle
     global drawstart
+    global time
     drawstart = 0
     mouse = Mouse()
     end = End()
     background = Background()
-    bar_1 = Bar_1()
-    bar_2 = Bar_2()
+    # 아래쪽 가로
+    bar_1 = horizontal_bar(110, 120, 90, 310)
+    bar_2 = horizontal_bar(400, 450, 100, 200)
+    bar_3 = horizontal_bar(600, 450, 100, 300)
+    # 위쪽 가로
+    bar_4 = horizontal_bar(110, 190, 90, 100)
+    bar_5 = horizontal_bar(330, 100, 10, 410)
+    bar_6 = horizontal_bar(510, 190, 90, 520)
+    # 위쪽 세로
+    bar_7 = vertical_bar(70, 170, 10, 100)
+    bar_8 = vertical_bar(280, 360, 10, 10)
+    bar_9 = vertical_bar(470, 470, 20, 10)
+    bar_10 = vertical_bar(740, 370, 10, 100)
+    # 위쪽 아래
+    bar_11 = vertical_bar(340, 150, 10, 10)
+    bar_12 = vertical_bar(550, 250, 10, 10)
     obstacle = Obstacle()
     mouse.setpos()
-
+    time = get_time();
 def exit():
     global mouse, background, end, bar_1, bar_2, obstacle
     del(mouse)
@@ -236,8 +235,8 @@ def collide(a, b):
 
 
 def update():
-    global  end, bar_1, bar_2, obstacle, mouse
-    #mouse.update()
+    global  end, bar_1, bar_2, bar_3, obstacle, mouse, time
+    mouse.update()
     if drawstart == 1:
         obstacle.update()
     update_canvas()
@@ -251,6 +250,26 @@ def update():
         mouse.setpos()
     if collide(bar_2, mouse):
         mouse.setpos()
+    if collide(bar_3, mouse):
+        mouse.setpos()
+    if collide(bar_4, mouse):
+        mouse.setpos()
+    if collide(bar_5, mouse):
+        mouse.setpos()
+    if collide(bar_6, mouse):
+        mouse.setpos()
+    if collide(bar_7, mouse):
+        mouse.setpos()
+    if collide(bar_8, mouse):
+        mouse.setpos()
+    if collide(bar_9, mouse):
+         mouse.setpos()
+    if collide(bar_10, mouse):
+        mouse.setpos()
+    if collide(bar_11, mouse):
+        mouse.setpos()
+    if collide(bar_12, mouse):
+        mouse.setpos()
 
 
 def draw_main_scene():
@@ -258,12 +277,21 @@ def draw_main_scene():
     end.draw()
     mouse.draw()
     bar_1.draw()
+    bar_3.draw()
     bar_2.draw()
+    bar_4.draw()
+    bar_5.draw()
+    bar_6.draw()
+    bar_7.draw()
+    bar_8.draw()
+    bar_9.draw()
+    bar_10.draw()
+    bar_11.draw()
+    bar_12.draw()
     if drawstart == 1:
         obstacle.draw()
 
-   # bar_1.draw_bb()
-    #bar_2.draw_bb()
+
     end.draw_bb()
     mouse.draw_bb()
 
