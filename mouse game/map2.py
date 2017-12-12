@@ -222,7 +222,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_state(pause_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
-            game_framework.push_state(map2)
+            game_framework.push_state(map3)
         else :
             mouse.handle_events(event)
 
@@ -301,7 +301,7 @@ def draw_main_scene():
     #bar_1.draw_bb()
     #bar_2.draw_bb()
     end.draw_bb()
-    mouse.draw_bb()
+    #mouse.draw_bb()
 
 
 def draw():

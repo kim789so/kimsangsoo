@@ -293,7 +293,7 @@ def draw_main_scene():
 
 
     end.draw_bb()
-    mouse.draw_bb()
+    #mouse.draw_bb()
 
 def draw():
     hide_cursor()
