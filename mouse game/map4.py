@@ -144,11 +144,11 @@ class Obstacle:
 
     def update(self):
         if self.type == 0:
-            self.y += 1
+            self.y += 20
             if self.y > self.maxy:
                 self.type = 1
         elif self.type == 1:
-            self.y -= 1
+            self.y -= 20
             if self.y < self.miny:
                 self.type = 0
     def draw(self):

@@ -89,7 +89,6 @@ def draw():
     image.draw(400, 300)
     hide_cursor()
     mouse.draw()
-    mouse.draw_bb()
     update_canvas()
 
 

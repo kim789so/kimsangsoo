@@ -7,7 +7,7 @@ from pico2d import *
 import game_framework
 import title_state
 import pause_state
-import map5
+import map6
 
 
 name = "map5 state"
@@ -145,19 +145,19 @@ class Obstacle:
 
     def update(self):
         if self.type == 0:
-            self.y += 1
+            self.y += 20
             if self.y > self.maxy:
                 self.type = 1
         elif self.type == 1:
-            self.y -= 1
+            self.y -= 20
             if self.y < self.miny:
                 self.type = 0
         elif self.type == 2:
-            self.x -= 1
+            self.x -= 20
             if self.x < self.minx:
                 self.type = 3
         elif self.type == 3:
-            self.x += 1
+            self.x += 20
             if self.x > self.maxx:
                 self.type = 2
     def draw(self):
@@ -231,7 +231,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_state(pause_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
-            game_framework.push_state(map5)
+            game_framework.push_state(map6)
         else :
             mouse.handle_events(event)
 
@@ -258,7 +258,7 @@ def update():
 
     if drawstart == 1:
         if collide(end, mouse):
-            game_framework.push_state(map5)
+            game_framework.push_state(map6)
         if collide(obstacle, mouse):
             mouse.setpos()
         if collide( obstacle2, mouse):

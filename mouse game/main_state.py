@@ -94,6 +94,7 @@ class Mouse:
     def setpos(self):
         SDL_WarpMouseInWindow(None, 145, 470)
 
+#세로 벽
 class vertical_bar:
     def __init__(self,x,y, incre, end):
         self.x, self.y = x, y
@@ -110,10 +111,11 @@ class vertical_bar:
         self.image.draw(self.x, self.y + self.end)
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
-
+    # 충돌 영역
     def get_bb(self):
         return self.x - 10, self.y - 50 - self.incre, self.x + 10, self.y + 50 + self.end
 
+#가로 벽
 class horizontal_bar:
     def __init__(self, x, xend, incre, y):
         self.x, self.y, = x,y
@@ -132,6 +134,7 @@ class horizontal_bar:
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
 
+    # 충돌 영역
     def get_bb(self):
         return self.x - 50, self.y - 10, self.xend + 50, self.y + 10
 
@@ -140,15 +143,15 @@ class Obstacle:
         self.x, self.y = 400, 300
         self.image = load_image('obstacle.png')
         self.type = 0
-
+    # 장애물 이동
     def update(self):
         if self.type == 0:
-            self.x += 1
+            self.x += 20
             if self.x >500:
                 self.type = 1
         elif self.type == 1:
-            self.x -= 1
-            if self.x < 300:
+            self.x -= 20
+            if self.x < 330:
                 self.type = 0
     def draw(self):
         self.image.draw(self.x , self.y)
@@ -156,14 +159,18 @@ class Obstacle:
 
     def draw_bb(self):
         draw_rectangle(*self.get_bb())
+    # 충돌 영역
     def get_bb(self):
         return self.x - 21, self.y - 71, self.x + 19, self.y + 71
 
 
 def enter():
-    global mouse, background, end, bar_1, bar_2, bar_3, bar_4, bar_5, bar_6, bar_7, bar_8, bar_9, bar_10, bar_11, bar_12, obstacle
+    global mouse, background, end, bar_1, bar_2, bar_3, bar_4, bar_5, bar_6, bar_7, bar_8, bar_9, bar_10, bar_11, bar_12, obstacle, bgm
     global drawstart
     global time
+    bgm = load_music('BGM.mp3')
+    bgm.set_volume(50)
+    bgm.repeat_play()
     drawstart = 0
     mouse = Mouse()
     end = End()
@@ -222,6 +229,7 @@ def handle_events():
         else :
             mouse.handle_events(event)
 
+# a랑 b랑 충돌 됬으면 true 리턴
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_bb()
     left_b, bottom_b, right_b, top_b = b.get_bb()
@@ -240,12 +248,15 @@ def update():
     if drawstart == 1:
         obstacle.update()
     update_canvas()
-
+    # 실질적 충돌체크
     if drawstart == 1:
+        # end랑 마우스 충돌 체크
         if collide(end, mouse):
             game_framework.push_state(map2)
+        # 벽이랑 마우스 충돌 체크
         if collide(obstacle, mouse):
             mouse.setpos()
+    # 장애물이랑 마우스 충돌 체크
     if collide(bar_1, mouse):
         mouse.setpos()
     if collide(bar_2, mouse):

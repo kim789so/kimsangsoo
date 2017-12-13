@@ -138,17 +138,20 @@ class horizontal_bar:
 class Obstacle:
     def __init__(self, x, y, type):
         self.x, self.y = x, y
-        self.minx, self.maxx = x - 100 , x + 100
+        if type == 1:
+            self.minx, self.maxx = x - 100 , x + 100
+        else:
+            self.minx, self.maxx = x - 70, x + 100
         self.image = load_image('obstacle.png')
         self.type = type
 
     def update(self):
         if self.type == 0:
-            self.x += 1
+            self.x += 20
             if self.x > self.maxx:
                 self.type = 1
         elif self.type == 1:
-            self.x -= 1
+            self.x -= 20
             if self.x < self.minx:
                 self.type = 0
     def draw(self):

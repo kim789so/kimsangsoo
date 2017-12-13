@@ -9,10 +9,9 @@ logo_time = 0.0
 
 def enter():
     global image
-    open_canvas()
+    # 프레임 고정
+    open_canvas(800,600, True)
     image = load_image('kpu_credit.png')
-
-
 def exit():
     global image
     del(image)
