@@ -169,7 +169,7 @@ def enter():
     global drawstart
     global time
     bgm = load_music('BGM.mp3')
-    bgm.set_volume(50)
+    bgm.set_volume(3)
     bgm.repeat_play()
     drawstart = 0
     mouse = Mouse()
