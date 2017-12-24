@@ -9,7 +9,6 @@ import title_state
 import pause_state
 import map2
 
-
 name = "MainState"
 
 mouse = None
@@ -165,6 +164,7 @@ class Obstacle:
 
 
 def enter():
+    game_framework.start_time()
     global mouse, background, end, bar_1, bar_2, bar_3, bar_4, bar_5, bar_6, bar_7, bar_8, bar_9, bar_10, bar_11, bar_12, obstacle, bgm
     global drawstart
     global time
@@ -215,7 +215,6 @@ def resume():
 def handle_events():
     global running
     global  Mouse
-
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -226,7 +225,7 @@ def handle_events():
             game_framework.push_state(pause_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
             game_framework.push_state(map2)
-        else :
+        else:
             mouse.handle_events(event)
 
 # a랑 b랑 충돌 됬으면 true 리턴

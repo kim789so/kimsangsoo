@@ -263,6 +263,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_p:
             game_framework.push_state(pause_state)
         elif event.type == SDL_KEYDOWN and event.key == SDLK_2:
+            game_framework.end_time()
             game_framework.push_state(title_state)
         else :
             mouse.handle_events(event)
@@ -293,6 +294,7 @@ def update():
 
     if drawstart == 1:
         if collide(end, mouse):
+            game_framework.end_time()
             game_framework.push_state(title_state)
         if collide(obstacle, mouse):
             mouse.setpos()

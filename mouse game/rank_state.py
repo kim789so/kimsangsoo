@@ -1,11 +1,13 @@
 import game_framework
 from pico2d import *
 import main_state
+import title_state
 import rank_state
 
 name = "TitleState"
 image = None
-
+font = None
+rank = None
 class Mouse:
     def __init__(self):
         self.x, self.y = 100, 100
@@ -29,20 +31,12 @@ class Mouse:
             global image
             global mouse
             self.x, self.y = event.x, 600 - event.y
-            # start
-            if self.x > 340 and self.x < 470 and self.y > 195 and self.y < 240:
-                image = load_image('start-check.png')
-                draw()
-            # ranking
-            elif self.x > 310 and self.x < 500 and self.y > 130 and self.y < 185:
-                image = load_image('ranking-check.png')
-                draw()
             # exit
-            elif self.x > 350 and self.x < 450 and self.y > 75 and self.y < 120:
-                image = load_image('exit-check.png')
+            if self.x > 350 and self.x < 450 and self.y > 75 and self.y < 120:
+                #image = load_image('exit-check.png')
                 draw()
             else:
-                image = load_image('main.png')
+                image = load_image('background.png')
                 draw()
         if event.type == SDL_MOUSEBUTTONDOWN:
             self.x, self.y = event.x, 600 - event.y
@@ -61,11 +55,11 @@ def enter():
     global image
     global mouse
     mouse = Mouse()
-    image = load_image('main.png')
+    image = load_image('background.png')
 
 def start():
     global image
-    image = load_image('start.png')
+    image = load_image('background.png')
 
 def exit():
     global image
@@ -78,14 +72,24 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-                game_framework.quit()
+                game_framework.change_state(title_state)
         else :
             mouse.handle_events(event)
 
 
 def draw():
+    global font, rank
     clear_canvas()
     image.draw(400, 300)
+    rank = game_framework.get_rank()
+    font = load_font('ENCR10B.TTF', 40)
+    font.draw(300,550,'[RANKING]',(255,0,0))
+    y = 0
+    for ranking in rank:
+         font.draw(200,450-50*y, "[No.%d] Time:%4.1f" % (y + 1, ranking), (255,255,255))
+         y += 1
+         if y > 4:
+             break
     hide_cursor()
     mouse.draw()
     update_canvas()

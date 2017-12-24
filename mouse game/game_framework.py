@@ -1,3 +1,7 @@
+
+import json
+import timeit
+
 class GameState:
     def __init__(self, state):
         self.enter = state.enter
@@ -40,7 +44,24 @@ class TestGameState:
 
 running = None
 stack = None
+rank = list()
+start_time = None
+end_time = None
+rank_data = list()
 
+def push_rank(data):
+    global rank
+    rank.append(data)
+    rank.sort()
+
+def start_time():
+    global start_time
+    start_time = timeit.default_timer()
+
+def end_time():
+    global start_time, end_time
+    end_time = timeit.default_timer()
+    push_rank(end_time - start_time)
 
 def change_state(state):
     global stack
@@ -57,7 +78,8 @@ def push_state(state):
     stack.append(state)
     state.enter()
 
-
+def get_rank():
+    return rank
 
 def pop_state():
     global stack
@@ -72,11 +94,18 @@ def quit():
     global running
     running = False
 
+    f = open('rank.txt', 'w')
+    json.dump(rank, f)
+    f.close()
+
 
 def run(start_state):
-    global running, stack
+    global running, stack, rank, rank_data
     running = True
     stack = [start_state]
+    f = open('rank.txt','r')
+    rank = json.load(f)
+    f.close()
     start_state.enter()
     while (running):
         stack[-1].handle_events()
